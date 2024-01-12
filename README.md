@@ -10,6 +10,10 @@ magnet "For All Mankind" --season 4 --episode 10
 magnet "For All Mankind" -s 4 -e 10
 ```
 
+## Demo
+
+https://github.com/alissonsleal/magnet/assets/19809377/f50e9496-3f92-4181-bf6e-63c4f66dabb0
+
 ## Description
 
 The tool searches for magnet links on Torrent Galaxy based on the provided search query and optional season and episode parameters.
