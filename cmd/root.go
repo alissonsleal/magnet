@@ -19,24 +19,27 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "magnet",
 	Short: "magnet is a tool to get magnet links from torrent galaxy",
-	Long: `magnet is a tool to get magnet links from torrent galaxy. For example:
+	Long: `magnet is a tool to get magnet links from torrent galaxy. 
 
-magnet "game of thrones" --season 1 --episode 10 --order-by seeders --limit 10 --page 1`,
+Usage:
+magnet "For All Mankind S04E10"
+magnet "For All Mankind" --season 4 --episode 10
+
+
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		defaultTgUrl := "https://torrentgalaxy.to/torrents.php?"
 		search := url.QueryEscape(args[0])
-		sortBy, _ := cmd.Flags().GetString("sort-by")
 		season, _ := cmd.Flags().GetInt("season")
 		episode, _ := cmd.Flags().GetInt("episode")
 
-		parsedSortBy := "&sort=" + sortBy
-		parsedSearch := "search=" + search
+		parsedSearch := "&search=" + search
 
 		if season != 0 && episode != 0 {
 			parsedSearch += url.QueryEscape(fmt.Sprintf(" s%02de%02d", season, episode))
 		}
 
-		tgUrl := defaultTgUrl + parsedSearch + parsedSortBy + "&order=desc"
+		tgUrl := defaultTgUrl + "sort=seeder&order=desc" + parsedSearch
 
 		spinner, _ := pterm.DefaultSpinner.Start("Searching for magnet links")
 		spinner.RemoveWhenDone = true
@@ -118,9 +121,6 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().StringP("sort-by", "o", "seeders", "Sort by seeders, leechers or time")
-	rootCmd.Flags().IntP("limit", "l", 10, "Limit of results")
-	rootCmd.Flags().IntP("page", "p", 1, "Page of results")
 	rootCmd.Flags().IntP("season", "s", 0, "Season of the show")
 	rootCmd.Flags().IntP("episode", "e", 0, "Episode of the show")
 }
