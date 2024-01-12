@@ -24,9 +24,10 @@ var rootCmd = &cobra.Command{
 Usage:
 magnet "For All Mankind S04E10"
 magnet "For All Mankind" --season 4 --episode 10
-
+magnet "For All Mankind" -s 4 -e 10
 
 `,
+	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		defaultTgUrl := "https://torrentgalaxy.to/torrents.php?"
 		search := url.QueryEscape(args[0])
@@ -39,7 +40,7 @@ magnet "For All Mankind" --season 4 --episode 10
 			parsedSearch += url.QueryEscape(fmt.Sprintf(" s%02de%02d", season, episode))
 		}
 
-		tgUrl := defaultTgUrl + "sort=seeder&order=desc" + parsedSearch
+		tgUrl := defaultTgUrl + "sort=seeders&order=desc" + parsedSearch
 
 		spinner, _ := pterm.DefaultSpinner.Start("Searching for magnet links")
 		spinner.RemoveWhenDone = true
