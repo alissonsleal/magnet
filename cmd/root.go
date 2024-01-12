@@ -2,6 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"io"
+	"log"
+	"net/http"
 	"net/url"
 	"os"
 	"strings"
@@ -33,36 +36,35 @@ magnet "game of thrones" --season 1 --episode 10 --order-by seeders --limit 10 -
 			parsedSearch += url.QueryEscape(fmt.Sprintf(" s%02de%02d", season, episode))
 		}
 
-		fmt.Println("getMagnets called")
-		fmt.Println("sortBy:", parsedSortBy)
-		fmt.Println("search:", parsedSearch)
-
 		tgUrl := defaultTgUrl + parsedSearch + parsedSortBy + "&order=desc"
 
-		fmt.Println(tgUrl)
+		spinner, _ := pterm.DefaultSpinner.Start("Searching for magnet links")
+		spinner.RemoveWhenDone = true
 
-		// response, err := http.Get("https://api.github.com/repos/elysiajs/elysia/issues")
-		// if err != nil {
-		// 	log.Fatalln(err)
-		// }
+		response, err := http.Get(tgUrl)
+		if err != nil {
+			spinner.UpdateText("Something went wrong")
+			spinner.Fail()
 
-		// body, err := io.ReadAll(response.Body)
-		// if err != nil {
-		// 	log.Fatalln(err)
-		// }
+			log.Fatalln(err)
 
-		// sb := string(body)
+		}
 
-		// fmt.Println(sb)
+		spinner.UpdateText("Done")
+		spinner.Info()
 
-		str := GetTestString()
+		body, err := io.ReadAll(response.Body)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		str := string(body)
+
 		ioReader := strings.NewReader(str)
 
 		strHtml, _ := html.Parse(ioReader)
 
 		rows := QueryAll(strHtml, ".tgxtablerow")
-
-		fmt.Println(&rows)
 
 		records := []map[string]string{}
 
