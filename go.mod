@@ -4,6 +4,7 @@ go 1.21.6
 
 require (
 	github.com/andybalholm/cascadia v1.3.2
+	github.com/atotto/clipboard v0.1.4
 	github.com/pterm/pterm v0.12.74
 	github.com/spf13/cobra v1.8.0
 	golang.org/x/net v0.9.0

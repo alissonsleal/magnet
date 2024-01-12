@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/andybalholm/cascadia"
+	"github.com/atotto/clipboard"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 	"golang.org/x/net/html"
@@ -102,6 +103,8 @@ magnet "game of thrones" --season 1 --episode 10 --order-by seeders --limit 10 -
 		fmt.Sscanf(selectedOptionString, "%d", &selectedOptionNumber)
 
 		pterm.Success.Println(pterm.Green(chosenMagnetLink))
+
+		clipboard.WriteAll(chosenMagnetLink)
 	},
 }
 
