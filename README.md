@@ -77,6 +77,8 @@ This project is licensed under the MIT License.
 ## TODO
 
 - [ ] Add support for other torrent sites
+- [ ] Limit the max amount of characters in the name result (breaks the table)
+- [ ] Show the entire line of the result when selecting a row
 - [ ] Release binaries for Linux
 - [ ] Release binaries for macOS
 - [ ] Release binaries for Windows
